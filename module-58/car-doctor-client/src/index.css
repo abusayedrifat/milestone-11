@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+.button1{
+    background-color: #FF3811;
+    color: white;
+}
+.button1:hover{
+    background: transparent;
+    border: 1px solid #FF3811;
+    color: #FF3811;
+}
+
+.button2{
+    background-color: transparent;
+    border: 1px solid #FF3811;
+    color: #FF3811;
+}
+.button2:hover{
+    background-color: #FF3811;
+    color: white;
+}
