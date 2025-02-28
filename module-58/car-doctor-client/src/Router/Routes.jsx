@@ -6,6 +6,7 @@ import LogIn from "../Pages/LogIn/LogIn";
 import ServiceCheckout from "../Pages/ServiceCheckout/ServiceCheckout";
 import ServiceDetails from "../Pages/ServiceDetails/ServiceDetails";
 import Bookings from "../Pages/Bookings/Bookings";
+import PrivateRouter from "./PrivateRouter";
 
 const router = createBrowserRouter([
     {
@@ -28,16 +29,16 @@ const router = createBrowserRouter([
             {
                 path:'/serviceDetails/:id',
                 loader: ({params})=>fetch(`http://localhost:5000/services/${params.id}`) ,
-                element:<ServiceDetails></ServiceDetails>
+                element: <PrivateRouter><ServiceDetails></ServiceDetails></PrivateRouter> 
             },
             {
                 path:'/serviceCheckout/:id',
                 loader: ({params})=>fetch(`http://localhost:5000/services/${params.id}`) ,
-                element:<ServiceCheckout></ServiceCheckout>
+                element: <ServiceCheckout></ServiceCheckout>
             },
             {
                 path:'/bookings',
-                element:<Bookings></Bookings>
+                element: <PrivateRouter> <Bookings></Bookings></PrivateRouter>
             }
 
             

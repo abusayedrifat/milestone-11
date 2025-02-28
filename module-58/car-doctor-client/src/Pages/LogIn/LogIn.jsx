@@ -1,17 +1,18 @@
 import { useForm } from "react-hook-form";
 import logInIMG from "../../assets/icons/login.svg";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash, FaFacebookF } from "react-icons/fa";
 import { IoLogoGithub, IoLogoGoogle } from "react-icons/io";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../Components/AuthProvider/AuthProvider";
+import axios from "axios";
 
 const LogIn = () => {
   const { signIn } = useContext(AuthContext);
 
   const [showPassword, setShowPassword] = useState(false);
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const {
     register,
@@ -19,14 +20,20 @@ const LogIn = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data,event) => {
-    const form = event.target
+  const onSubmit = (data, event) => {
+    const form = event.target;
     const { email, password } = data;
     signIn(email, password)
       .then((result) => {
         console.log(result);
-        form.reset()
-        navigate('/')
+        const user = result.user;
+
+        axios.post("http://localhost:5000/jwt", user, { withCredentials: true })
+          .then((res) => {
+            console.log(res.data);
+            form.reset();
+            navigate(location?.state ? location?.state : "/");
+          });
       })
       .catch((error) => {
         console.log(error.message);
